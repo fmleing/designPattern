@@ -1,7 +1,7 @@
 package designPattern;
 
 /**
- * DCL版单例模式
+ * DCL（Double Check Lock) 双端检锁机制 版单例模式
  */
 public class DCLSingleton {
 
@@ -18,9 +18,13 @@ class SingletonOne {
         System.out.println(Thread.currentThread().getName() + "创建了单例");
     }
 
-    public static synchronized SingletonOne getSingletonOne(){
+    public static SingletonOne getSingletonOne(){
         if (singletonOne == null) {
-            singletonOne = new SingletonOne();
+            synchronized (SingletonOne.class) {
+                if (singletonOne == null) {
+                    singletonOne = new SingletonOne();
+                }
+            }
         }
         return singletonOne;
     }
