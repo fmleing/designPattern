@@ -18,7 +18,7 @@ class SingletonOne {
         System.out.println(Thread.currentThread().getName() + "创建了单例");
     }
 
-    public static SingletonOne getSingletonOne(){
+    public static synchronized SingletonOne getSingletonOne(){
         if (singletonOne == null) {
             singletonOne = new SingletonOne();
         }
