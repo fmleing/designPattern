@@ -3,26 +3,20 @@ package designPattern;
 /**
  * DCL（Double Check Lock) 双端检锁机制 版单例模式
  */
+
 public class DCLSingleton {
+    // 禁止指令重排
+    private static volatile DCLSingleton singletonOne = null;
 
-
-}
-
-/**
- * 单线程版单例
- */
-class SingletonOne {
-    private static SingletonOne singletonOne = null;
-
-    private SingletonOne(){
+    private DCLSingleton(){
         System.out.println(Thread.currentThread().getName() + "创建了单例");
     }
 
-    public static SingletonOne getSingletonOne(){
+    public static DCLSingleton getSingletonOne(){
         if (singletonOne == null) {
-            synchronized (SingletonOne.class) {
+            synchronized (DCLSingleton.class) {
                 if (singletonOne == null) {
-                    singletonOne = new SingletonOne();
+                    singletonOne = new DCLSingleton();
                 }
             }
         }
@@ -35,7 +29,7 @@ class Main{
     public static void main(String[] args) {
         for (int i = 0; i < 10; i++) {
             new Thread(()->{
-                SingletonOne.getSingletonOne();
+                DCLSingleton.getSingletonOne();
             },String.valueOf(i).toString()).start();
         }
     }
